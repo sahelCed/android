@@ -34,20 +34,21 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
         }
     }
 
-    fun register(email: String, password: String) {
-//        viewModelScope.launch {
-//            try {
-//                val response = repository.register(email,password)
-//                user = User(
-//                    id = response.data.id,
-//                    email = response.data.email,
-//                )
-//                errorMessage = null
-//                isLogged = true
-//            } catch (e: Exception) {
-//                errorMessage = e.message
-//            }
-//        }
+    fun register(email: String, password: String, onSuccess: () -> Unit) {
+        viewModelScope.launch {
+            try {
+                val response = repository.register(email,password)
+                _user.value = User(
+                    id = response.id,
+                    email = response.email,
+                )
+               errorMessage = null
+                isLogged = true
+                onSuccess()
+            } catch (e: Exception) {
+                errorMessage = e.message
+            }
+        }
     }
 
     fun updateUser(email: String, password: String, userId: Int) {

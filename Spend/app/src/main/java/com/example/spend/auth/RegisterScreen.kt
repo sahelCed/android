@@ -60,7 +60,9 @@ fun RegisterScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = { authViewModel.register(email.trim(), password) },
+                onClick = { authViewModel.register(email.trim(), password) {
+                    navController.navigate("home")
+                } },
                 enabled = email.isNotBlank() && password.isNotBlank(),
                 modifier = Modifier.fillMaxWidth()
             ) {
