@@ -16,6 +16,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
@@ -25,6 +27,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,13 +44,18 @@ import com.example.spend.spend.models.TransactionBody
 fun AddSpendScreen(
     authViewModel: AuthViewModel = viewModel(),
     transactionViewModel: TransactionViewModel = viewModel(),
-    ) {
+) {
+
+    val transactionAdded by transactionViewModel.transactions.collectAsState()
 
     var title by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
     var category by remember { mutableStateOf("") }
     var type by remember { mutableStateOf("EXPENSE") }
     val categories by transactionViewModel.categories.collectAsState()
+
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
 
 
     LaunchedEffect(Unit) {
@@ -56,6 +64,7 @@ fun AddSpendScreen(
 
 
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
                 title = { Text("Créer une Transaction") }
@@ -89,10 +98,9 @@ fun AddSpendScreen(
             CategorySelector(
                 categories = categories,
                 selectedCategory = category.toString(),
-                onCategorySelected = { category = it }
-
+                onCategorySelected = { category = it.toString() }
             )
-
+            //category.toString(),
             // Type de transaction
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 listOf("EXPENSE", "INCOME").forEach { option ->
@@ -120,9 +128,9 @@ fun AddSpendScreen(
                     transactionViewModel.createTransaction(TransactionBody(
                         title = title,
                         amount = parsedAmount,
-                        categoryId = category,
+                        categoryId = category.toInt(),
                         userId = authViewModel.user.value!!.id,
-                        transactionType = TransactionType.valueOf(type)
+                        type = TransactionType.valueOf(type)
                     ))
                 },
                 modifier = Modifier.fillMaxWidth(),
@@ -139,7 +147,7 @@ fun AddSpendScreen(
 fun CategorySelector(
     categories: List<Category>,
     selectedCategory: String,
-    onCategorySelected: (String) -> Unit
+    onCategorySelected: (Int) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -168,7 +176,7 @@ fun CategorySelector(
                 DropdownMenuItem(
                     text = { Text(category.name) },
                     onClick = {
-                        onCategorySelected(category.id.toString())
+                        onCategorySelected(category.id)
                         expanded = false
                     }
                 )
