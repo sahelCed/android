@@ -23,4 +23,7 @@ interface TransactionService {
 
     @POST("/categories")
     suspend fun createCategory(@Body categoryBody: CategoryBody): Category
+
+    @GET("/sold/{userId}")
+    suspend fun getBalance(@Path("userId") userId: Number): Double
 }

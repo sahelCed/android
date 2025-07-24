@@ -1,4 +1,5 @@
 package com.example.spend.auth
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -28,6 +29,7 @@ fun LoginScreen(
 
     LaunchedEffect(user) {
         if (user != null) {
+            Log.d("USERID", "${user!!.id}")
             navController.navigate("home") {
                 popUpTo("login") { inclusive = true }
             }
@@ -71,7 +73,7 @@ fun LoginScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = {authViewModel.login("ced2@gmail.com","azerty")},
+                onClick = {authViewModel.login(email,password)},
                 enabled = email.isNotBlank() && password.isNotBlank(),
                 modifier = Modifier.fillMaxWidth()
             ) {

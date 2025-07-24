@@ -22,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -45,7 +46,7 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             TopAppBar(title = {
-                Text(user?.email.toString())
+                Text(items[selectedItem])
             })
         },
         floatingActionButton = {
@@ -76,9 +77,15 @@ fun HomeScreen(
             }
         }
     ) { innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
+        Box(modifier = Modifier
+            .padding(innerPadding)
+            .fillMaxSize(),
+        ) {
             when (selectedItem) {
-                0 -> HomeContent()
+                0 -> HomeContent(
+                    authViewModel = authViewModel,
+                    transactionViewModel = transactionViewModel
+                )
                 1 -> SpendingContent(
                     transactionViewModel = transactionViewModel,
                     authViewModel = authViewModel,

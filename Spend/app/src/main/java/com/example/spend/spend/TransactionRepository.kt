@@ -19,6 +19,11 @@ class TransactionRepository(private val transactionService: TransactionService) 
         return categories
     }
 
+    suspend fun getBalance(userId: Number): Double {
+        val balance = transactionService.getBalance(userId)
+        return balance
+    }
+
     suspend fun createTransaction(transactionBody: TransactionBody): Transaction {
         return  transactionService.createTransaction(
             transactionBody = transactionBody

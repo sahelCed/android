@@ -2,6 +2,7 @@ package com.example.spend.spend
 
 
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -22,6 +23,10 @@ class TransactionViewModel(private val repository: TransactionRepository) : View
     private val _transactions = MutableStateFlow<List<GroupedTransaction>>(emptyList())
     private val _categories = MutableStateFlow<List<Category>>(emptyList())
     val transactions: StateFlow<List<GroupedTransaction>> = _transactions
+
+    private val _balance = MutableStateFlow<Double>(0.0)
+
+    val balance:  StateFlow<Double> = _balance
     val categories: StateFlow<List<Category>> = _categories
     private var errorMessage by mutableStateOf<String?>(null)
 
@@ -47,6 +52,18 @@ class TransactionViewModel(private val repository: TransactionRepository) : View
                 val response = repository.getCategories()
                 _categories.value = response
             } catch (e: Exception) {
+                errorMessage = e.message
+            }
+        }
+    }
+
+    fun getBalance(userId: Number) {
+        viewModelScope.launch {
+            try {
+                val response = repository.getBalance(userId)
+                _balance.value = response
+                Log.d("BALANCE", "${_balance.value}")
+            }catch (e: Exception) {
                 errorMessage = e.message
             }
         }
