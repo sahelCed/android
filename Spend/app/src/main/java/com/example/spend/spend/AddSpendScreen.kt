@@ -15,12 +15,16 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -34,9 +38,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.spend.auth.AuthViewModel
 import com.example.spend.auth.models.Category
 import com.example.spend.auth.models.TransactionType
+import com.example.spend.spend.models.CategoryBody
 import com.example.spend.spend.models.TransactionBody
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,18 +50,23 @@ import com.example.spend.spend.models.TransactionBody
 fun AddSpendScreen(
     authViewModel: AuthViewModel = viewModel(),
     transactionViewModel: TransactionViewModel = viewModel(),
+    navController: NavController
 ) {
 
-    val transactionAdded by transactionViewModel.transactions.collectAsState()
+    val transactionAdded by transactionViewModel.transactionAdded.collectAsState()
 
     var title by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
-    var category by remember { mutableStateOf("") }
+    var newCategoryName by remember { mutableStateOf("") }
+    var category by remember { mutableStateOf(0) }
     var type by remember { mutableStateOf("EXPENSE") }
     val categories by transactionViewModel.categories.collectAsState()
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    var showSheet by remember { mutableStateOf(true) }
 
 
     LaunchedEffect(Unit) {
@@ -97,8 +108,8 @@ fun AddSpendScreen(
 
             CategorySelector(
                 categories = categories,
-                selectedCategory = category.toString(),
-                onCategorySelected = { category = it.toString() }
+                selectedCategory = category,
+                onCategorySelected = { category = it }
             )
             //category.toString(),
             // Type de transaction
@@ -138,6 +149,59 @@ fun AddSpendScreen(
             ) {
                 Text("Enregistrer")
             }
+            LaunchedEffect(transactionAdded) {
+                    // Affiche le snackbar
+                if(transactionAdded) {
+                    val result = snackbarHostState.showSnackbar("Transaction ajoutée avec succès !")
+
+                    // Après dismissal ou timeout, navigue
+                    navController.navigate("home") {
+                        popUpTo("addTransaction") { inclusive = true }
+                    }
+                    transactionViewModel.setTransactionAdded(false)
+                }
+            }
+            if (showSheet) {
+                ModalBottomSheet(
+                    onDismissRequest = { showSheet = false },
+                    sheetState = sheetState
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .fillMaxWidth()
+                    ) {
+                        Text("Ajouter une categorie", style = MaterialTheme.typography.titleMedium)
+                        TextField(
+                            value = newCategoryName,
+                            onValueChange = { newCategoryName = it },
+                            label = { Text("Nom de la categorie") },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Button(
+                            onClick = {
+                                val test = transactionViewModel.createCategory(
+                                    CategoryBody(newCategoryName,authViewModel.user.value!!.id)
+
+                                )
+                                showSheet = false
+                            },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text("Valider")
+                        }
+                        OutlinedButton (
+                            onClick = {
+                                // Utilise name ici (ex: enregistrer)
+                                showSheet = false
+                            },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text("Annuler")
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -146,7 +210,7 @@ fun AddSpendScreen(
 @Composable
 fun CategorySelector(
     categories: List<Category>,
-    selectedCategory: String,
+    selectedCategory: Int,
     onCategorySelected: (Int) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -156,7 +220,7 @@ fun CategorySelector(
         onExpandedChange = { expanded = !expanded }
     ) {
         TextField(
-            value = selectedCategory,
+            value = if(selectedCategory == 0) {"Choisissez une categorie"} else {categories.find { x -> x.id == selectedCategory }!!.name},
             onValueChange = {},
             readOnly = true,
             label = { Text("Catégorie") },

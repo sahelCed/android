@@ -13,3 +13,8 @@ enum class TransactionType {
     INCOME,
     EXPENSE
 }
+
+data class GroupedTransaction(
+    val date:String,
+    val transactions: List<Transaction>
+)

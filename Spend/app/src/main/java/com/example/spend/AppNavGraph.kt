@@ -55,7 +55,8 @@ fun AppNavGraph() {
         composable("addSpend") {
             AddSpendScreen(
                 authViewModel = authViewModel,
-                transactionViewModel = transactionViewModel
+                transactionViewModel = transactionViewModel,
+                navController = navController
             )
         }
     }

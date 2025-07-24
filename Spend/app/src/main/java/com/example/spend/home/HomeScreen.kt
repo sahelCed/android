@@ -81,7 +81,8 @@ fun HomeScreen(
                 0 -> HomeContent()
                 1 -> SpendingContent(
                     transactionViewModel = transactionViewModel,
-                    authViewModel = authViewModel
+                    authViewModel = authViewModel,
+                    navController = navController
                 )
                 2 -> ProfileContent(
                     authViewModel = authViewModel,

@@ -1,13 +1,15 @@
 package com.example.spend.spend
 
 import com.example.spend.auth.models.Category
+import com.example.spend.auth.models.GroupedTransaction
 import com.example.spend.auth.models.LoginResponse
 import com.example.spend.auth.models.Transaction
 import com.example.spend.network.TransactionService
+import com.example.spend.spend.models.CategoryBody
 import com.example.spend.spend.models.TransactionBody
 
 class TransactionRepository(private val transactionService: TransactionService) {
-    suspend fun getAllTransaction(userId: Number): List<Transaction> {
+    suspend fun getAllTransaction(userId: Number): List<GroupedTransaction> {
         val transactions =  transactionService.getAllTransaction(userId)
         return transactions
     }
@@ -20,6 +22,12 @@ class TransactionRepository(private val transactionService: TransactionService) 
     suspend fun createTransaction(transactionBody: TransactionBody): Transaction {
         return  transactionService.createTransaction(
             transactionBody = transactionBody
+        )
+    }
+
+    suspend fun createCategory(categoryBody: CategoryBody): Category {
+        return  transactionService.createCategory(
+            categoryBody = categoryBody
         )
     }
 }
