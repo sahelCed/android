@@ -68,12 +68,6 @@ fun SpendingContent(
                     )
                 }
             }
-//            TransactionCard(
-//                transaction = gt.transaction,
-//                navController = navController,
-//                onClickHandler = {onClickOnItemList(gt.transaction)}
-//            )
-//            Spacer(modifier = Modifier.height(12.dp))
         }
     }
     if (selectedTransaction != null) {
@@ -104,7 +98,7 @@ fun SpendingContent(
                 Spacer(modifier = Modifier.padding(top = 4.dp))
 
                 Text(
-                    text = "Catégorie : ${selectedTransaction?.categorieId ?: "Non spécifiée"}",
+                    text = "Catégorie : ${selectedTransaction?.categorieName ?: "Non spécifiée"}",
                     style = MaterialTheme.typography.bodyMedium
                 )
 

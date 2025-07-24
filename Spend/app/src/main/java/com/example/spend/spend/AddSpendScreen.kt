@@ -22,6 +22,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -33,6 +34,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
@@ -66,7 +68,7 @@ fun AddSpendScreen(
     val scope = rememberCoroutineScope()
 
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    var showSheet by remember { mutableStateOf(true) }
+    var showSheet by remember { mutableStateOf(false) }
 
 
     LaunchedEffect(Unit) {
@@ -111,6 +113,9 @@ fun AddSpendScreen(
                 selectedCategory = category,
                 onCategorySelected = { category = it }
             )
+            TextButton(onClick = {showSheet = true}) {
+                Text("Créer une category")
+            }
             //category.toString(),
             // Type de transaction
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
