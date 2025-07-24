@@ -73,7 +73,7 @@ fun LoginScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = {authViewModel.login(email,password)},
+                onClick = {authViewModel.login("gil@gil.gil","gil")},
                 enabled = email.isNotBlank() && password.isNotBlank(),
                 modifier = Modifier.fillMaxWidth()
             ) {

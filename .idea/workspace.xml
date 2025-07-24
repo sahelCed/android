@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1ace11fd-da08-4d86-9a50-f4fbc2f84477" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Spend/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Spend/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Spend/app/src/main/java/com/example/spend/auth/AuthViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Spend/app/src/main/java/com/example/spend/auth/AuthViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Spend/app/src/main/java/com/example/spend/auth/LoginScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Spend/app/src/main/java/com/example/spend/auth/LoginScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Spend/app/src/main/java/com/example/spend/auth/RegisterScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Spend/app/src/main/java/com/example/spend/auth/RegisterScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Spend/app/src/main/java/com/example/spend/auth/models/RegisterResponse.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Spend/app/src/main/java/com/example/spend/auth/models/RegisterResponse.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Spend/app/src/main/java/com/example/spend/home/HomeContent.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Spend/app/src/main/java/com/example/spend/home/HomeContent.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Spend/app/src/main/java/com/example/spend/home/HomeScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Spend/app/src/main/java/com/example/spend/home/HomeScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Spend/app/src/main/java/com/example/spend/spend/models/TransactionBody.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Spend/app/src/main/java/com/example/spend/spend/models/TransactionBody.kt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="30IDYEDKWSh3lnIaqpGerUBD88z" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Kotlin.Unnamed.executor": "Run",
+    "Kotlin.kt.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "settings.editor.selected.configurable": "AndroidSdkUpdater",
+    "show.migrate.to.gradle.popup": "false"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="AppleRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" IS_LOCATION_SIMULATION_SUPPORTED="false" IS_LOCATION_SIMULATION_ALLOWED="true" APPLICATION_LANGUAGE="IDELaunchSchemeLanguageUseSystemLanguage" APPLICATION_REGION="" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
+      <embedded_app_extension_list />
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="kt" type="JetRunConfigurationType" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="./Spend/app/src/main/java/com/example/spend/MainActivity.kt" />
+      <module name="android" />
+      <shortenClasspath name="NONE" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1ace11fd-da08-4d86-9a50-f4fbc2f84477" name="Changes" comment="" />
+      <created>1753306238665</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1753306238665</updated>
+    </task>
+    <servers />
+  </component>
+</project>

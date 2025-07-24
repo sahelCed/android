@@ -1,5 +1,6 @@
 package com.example.spend.home
 
+import SpendingContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -22,13 +23,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.spend.auth.AuthViewModel
 import com.example.spend.profile.ProfileContent
-import com.example.spend.spend.SpendingContent
 import com.example.spend.spend.TransactionViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,9 +49,11 @@ fun HomeScreen(
             })
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { navController.navigate("addSpend")
-            }) {
-                Icon(Icons.Default.Add, contentDescription = "Ajouter")
+            if (selectedItem != 0) {
+                FloatingActionButton(onClick = { navController.navigate("addSpend")
+                }) {
+                    Icon(Icons.Default.Add, contentDescription = "Ajouter")
+                }
             }
         },
         bottomBar = {
@@ -83,8 +84,10 @@ fun HomeScreen(
         ) {
             when (selectedItem) {
                 0 -> HomeContent(
+                    navController = navController,
                     authViewModel = authViewModel,
-                    transactionViewModel = transactionViewModel
+                    transactionViewModel = transactionViewModel,
+                    onSeeAllClick = { selectedItem = 1 }
                 )
                 1 -> SpendingContent(
                     transactionViewModel = transactionViewModel,
