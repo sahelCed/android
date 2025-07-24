@@ -18,7 +18,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,7 +39,6 @@ fun HomeScreen(
 
     var selectedItem by remember { mutableStateOf(0) }
     val items = listOf("Accueil","Dépenses", "Profil")
-    val user by authViewModel.user.collectAsState()
 
     Scaffold(
         topBar = {
@@ -49,7 +47,7 @@ fun HomeScreen(
             })
         },
         floatingActionButton = {
-            if (selectedItem != 0) {
+            if (selectedItem == 1) {
                 FloatingActionButton(onClick = { navController.navigate("addSpend")
                 }) {
                     Icon(Icons.Default.Add, contentDescription = "Ajouter")
