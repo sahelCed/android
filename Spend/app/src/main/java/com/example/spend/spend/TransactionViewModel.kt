@@ -13,6 +13,7 @@ import com.example.spend.auth.models.GroupedTransaction
 import com.example.spend.auth.models.Transaction
 import com.example.spend.spend.models.CategoryBody
 import com.example.spend.spend.models.TransactionBody
+import com.example.spend.spend.models.UpdateTransactionBody
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -33,12 +34,38 @@ class TransactionViewModel(private val repository: TransactionRepository) : View
     private val _transactionAdded = MutableStateFlow(false)
     val transactionAdded: StateFlow<Boolean> = _transactionAdded
 
+    private val _transaction = MutableStateFlow<Transaction?>(null)
+    val transaction: StateFlow<Transaction?> = _transaction
+
 
     fun getAllTransaction(userId: Number) {
         viewModelScope.launch {
             try {
                 val response = repository.getAllTransaction(userId)
                 _transactions.value = response
+            } catch (e: Exception) {
+                errorMessage = e.message
+            }
+        }
+    }
+
+    fun deleteTransaction(transactionId:Int) {
+        viewModelScope.launch {
+            try {
+                val response = repository.deleteTransaction(transactionId)
+                val newTransaction = repository.getAllTransaction(response.userId)
+                _transactions.value = newTransaction
+            } catch (e: Exception) {
+                errorMessage = e.message
+            }
+        }
+    }
+
+    fun getTransactionById(transactionId:Int) {
+        viewModelScope.launch {
+            try {
+               val response = repository.getTransactionById(transactionId)
+                _transaction.value = response
             } catch (e: Exception) {
                 errorMessage = e.message
             }
@@ -94,6 +121,17 @@ class TransactionViewModel(private val repository: TransactionRepository) : View
 
     fun setTransactionAdded(value: Boolean) {
         _transactionAdded.value = value
+    }
+
+
+    fun updateTransaction(transactionId:Int,body:UpdateTransactionBody) {
+        viewModelScope.launch {
+            try {
+                val response = repository.updateTransaction(transactionId,body)
+            } catch(e: Exception) {
+
+            }
+        }
     }
 
 }

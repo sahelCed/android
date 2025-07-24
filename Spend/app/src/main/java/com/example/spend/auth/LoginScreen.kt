@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -26,6 +27,7 @@ fun LoginScreen(
     var password by remember { mutableStateOf("") }
 
     val user by authViewModel.user.collectAsState()
+    val error by authViewModel.errorMessage.collectAsState()
 
     LaunchedEffect(user) {
         if (user != null) {
@@ -72,6 +74,9 @@ fun LoginScreen(
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(16.dp))
+            if(error != null) {
+                Text(error.toString(),color = Color.Red,)
+            }
             Button(
                 onClick = {authViewModel.login(email,password)},
                 enabled = email.isNotBlank() && password.isNotBlank(),
@@ -79,6 +84,7 @@ fun LoginScreen(
             ) {
                 Text("Se connecter")
             }
+
             Spacer(modifier = Modifier.height(16.dp))
             TextButton(onClick = {navController.navigate("register")}, modifier = Modifier.align(Alignment.CenterHorizontally)) {
                 Text("Créer un compte")

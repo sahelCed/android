@@ -16,6 +16,7 @@ import com.example.spend.spend.AddSpendScreen
 import com.example.spend.spend.TransactionRepository
 import com.example.spend.spend.TransactionViewModel
 import com.example.spend.spend.TransactionViewModelFactory
+import com.example.spend.spend.EditTransactionScreen
 
 @Composable
 fun AppNavGraph() {
@@ -57,6 +58,14 @@ fun AppNavGraph() {
                 authViewModel = authViewModel,
                 transactionViewModel = transactionViewModel,
                 navController = navController
+            )
+        }
+
+        composable("edit/{itemId}") { backStackEntry ->
+            val itemId = backStackEntry.arguments?.getString("itemId")
+            EditTransactionScreen(
+                itemId = itemId!!,
+                transactionViewModel
             )
         }
     }

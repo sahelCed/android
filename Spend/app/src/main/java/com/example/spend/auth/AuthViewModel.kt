@@ -19,35 +19,38 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
     val user: StateFlow<User?> = _user
 
 
-    private var errorMessage by mutableStateOf<String?>(null)
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage: StateFlow<String?> = _errorMessage
+
+
 
     fun login(email: String, password: String) {
         viewModelScope.launch {
             try {
                 val response = repository.login(email, password)
-                _user.value = User(response.id,response.email)
-                errorMessage = null
+                _user.value = User(response.id, response.email)
+                _errorMessage.value = null
                 isLogged = true
             } catch (e: Exception) {
-                errorMessage = e.message
+                _errorMessage.value = "Email ou mot de passe incorrect"
             }
         }
     }
 
     fun register(email: String, password: String) {
-//        viewModelScope.launch {
-//            try {
-//                val response = repository.register(email,password)
-//                user = User(
-//                    id = response.data.id,
-//                    email = response.data.email,
-//                )
-//                errorMessage = null
-//                isLogged = true
-//            } catch (e: Exception) {
-//                errorMessage = e.message
-//            }
-//        }
+        viewModelScope.launch {
+            try {
+                val response = repository.register(email,password)
+                _user.value = User(
+                    id = response.id,
+                    email = response.email,
+                )
+                _errorMessage.value = null
+                isLogged = true
+            } catch (e: Exception) {
+                _errorMessage.value = "ERR"
+            }
+        }
     }
 
     fun updateUser(email: String, password: String, userId: Int) {
