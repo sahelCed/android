@@ -25,6 +25,11 @@ class TransactionRepository(private val transactionService: TransactionService) 
         return balance
     }
 
+    suspend fun getLastTransactions(userId: Number): List<Transaction> {
+        val transactions = transactionService.getLastTransactions(userId)
+        return transactions
+    }
+
     suspend fun createTransaction(transactionBody: TransactionBody): Transaction {
         return  transactionService.createTransaction(
             transactionBody = transactionBody

@@ -17,16 +17,19 @@ import com.example.spend.spend.models.UpdateTransactionBody
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.time.OffsetDateTime
+import java.time.format.DateTimeParseException
 
 
 class TransactionViewModel(private val repository: TransactionRepository) : ViewModel() {
 
     private val _transactions = MutableStateFlow<List<GroupedTransaction>>(emptyList())
     private val _categories = MutableStateFlow<List<Category>>(emptyList())
-    val transactions: StateFlow<List<GroupedTransaction>> = _transactions
-
     private val _balance = MutableStateFlow<Double>(0.0)
+    private val _lastTransactions = MutableStateFlow<List<Transaction>>(emptyList())
 
+    val transactions: StateFlow<List<GroupedTransaction>> = _transactions
+    val lastTransactions: StateFlow<List<Transaction>> = _lastTransactions
     val balance:  StateFlow<Double> = _balance
     val categories: StateFlow<List<Category>> = _categories
     private var errorMessage by mutableStateOf<String?>(null)
@@ -91,6 +94,29 @@ class TransactionViewModel(private val repository: TransactionRepository) : View
                 _balance.value = response
                 Log.d("BALANCE", "${_balance.value}")
             }catch (e: Exception) {
+                errorMessage = e.message
+            }
+        }
+    }
+
+
+    fun getLastTransactions(userId: Number) {
+        viewModelScope.launch {
+            try {
+                val response = repository.getLastTransactions(userId)
+
+
+                val sorted = response.sortedByDescending { transaction ->
+                    try {
+                        OffsetDateTime.parse(transaction.createdAt)
+                    } catch (e: DateTimeParseException) {
+                        OffsetDateTime.MIN
+                    }
+                }
+
+                _lastTransactions.value = sorted
+
+            } catch (e: Exception) {
                 errorMessage = e.message
             }
         }

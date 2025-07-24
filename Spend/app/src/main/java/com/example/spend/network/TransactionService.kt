@@ -27,6 +27,9 @@ interface TransactionService {
     @GET("/categories")
     suspend fun getCategories(): List<Category>
 
+    @GET("/lastTransaction/{userId}")
+    suspend fun getLastTransactions(@Path("userId") userId: Number): List<Transaction>
+
     @POST("/categories")
     suspend fun createCategory(@Body categoryBody: CategoryBody): Category
 

@@ -78,7 +78,7 @@ fun LoginScreen(
                 Text(error.toString(),color = Color.Red,)
             }
             Button(
-                onClick = {authViewModel.login(email,password)},
+                onClick = {authViewModel.login("gil@gil.gil","gil")},
                 enabled = email.isNotBlank() && password.isNotBlank(),
                 modifier = Modifier.fillMaxWidth()
             ) {

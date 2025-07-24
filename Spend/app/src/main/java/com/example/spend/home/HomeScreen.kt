@@ -1,5 +1,6 @@
 package com.example.spend.home
 
+import SpendingContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,18 +18,15 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.spend.auth.AuthViewModel
 import com.example.spend.profile.ProfileContent
-import com.example.spend.spend.SpendingContent
 import com.example.spend.spend.TransactionViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -41,7 +39,6 @@ fun HomeScreen(
 
     var selectedItem by remember { mutableStateOf(0) }
     val items = listOf("Accueil","Dépenses", "Profil")
-    val user by authViewModel.user.collectAsState()
 
     Scaffold(
         topBar = {
@@ -50,9 +47,11 @@ fun HomeScreen(
             })
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { navController.navigate("addSpend")
-            }) {
-                Icon(Icons.Default.Add, contentDescription = "Ajouter")
+            if (selectedItem == 1) {
+                FloatingActionButton(onClick = { navController.navigate("addSpend")
+                }) {
+                    Icon(Icons.Default.Add, contentDescription = "Ajouter")
+                }
             }
         },
         bottomBar = {
@@ -83,8 +82,10 @@ fun HomeScreen(
         ) {
             when (selectedItem) {
                 0 -> HomeContent(
+                    navController = navController,
                     authViewModel = authViewModel,
-                    transactionViewModel = transactionViewModel
+                    transactionViewModel = transactionViewModel,
+                    onSeeAllClick = { selectedItem = 1 }
                 )
                 1 -> SpendingContent(
                     transactionViewModel = transactionViewModel,
